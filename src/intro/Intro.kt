@@ -11,5 +11,6 @@ fun main() {
     singleton()
     interfaces()
     lambdas()
+    delegatedproperties()
+    streams()
 }
-
