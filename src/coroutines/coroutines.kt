@@ -1,25 +1,39 @@
 package com.worldline.kotlin.coroutines
 
-import com.worldline.kotlin.intro.Client
-import com.worldline.kotlin.intro.User
 import io.ktor.client.HttpClient
-import io.ktor.client.engine.apache.Apache
+import io.ktor.client.features.json.GsonSerializer
+import io.ktor.client.features.json.JsonFeature
 import io.ktor.client.request.get
-import kotlinx.coroutines.*
+import io.ktor.client.request.url
+import kotlinx.coroutines.CoroutineScope
+import kotlinx.coroutines.SupervisorJob
+import kotlinx.coroutines.runBlocking
 
 fun main() {
     val job = SupervisorJob()
-    val scope = CoroutineScope(job + Dispatchers.Main)
+    val scope = CoroutineScope(job)
 
-    scope.launch {
-        // val clients = getClientsAsync()
+    runBlocking {
+        val geoPoints = getGeoPointsAsync().list
+        println(geoPoints)
     }
 }
 
-// private suspend fun getClientsAsync(): Deferred<List<Client>> {
-//     val client = HttpClient(Apache)
-//
-//     return withContext(Dispatchers.IO) {
-//         client.get<Client> {  }
-//     }
-// }
+private suspend fun getGeoPointsAsync(): GeoPointsResponse {
+    val client = HttpClient {
+        install(JsonFeature) {
+            serializer = GsonSerializer()
+        }
+    }
+    return client.get { url("http://t21services.herokuapp.com/points") }
+}
+
+data class GeoPointsResponse(
+    val list: List<GeoPoint>
+)
+
+data class GeoPoint(
+    val geocoordinates: String,
+    val id: String,
+    val title: String
+)
