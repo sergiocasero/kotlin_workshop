@@ -2,7 +2,7 @@ buildscript {
     repositories {
         jcenter()
     }
-    
+
     dependencies {
         classpath "org.jetbrains.kotlin:kotlin-gradle-plugin:$kotlin_version"
     }
@@ -49,5 +49,7 @@ dependencies {
     compile "io.ktor:ktor-client-auth-basic:$ktor_version"
     compile "io.ktor:ktor-client-json-jvm:$ktor_version"
     compile "io.ktor:ktor-client-gson:$ktor_version"
+    compile 'org.jetbrains.exposed:exposed:0.13.2'
+
     testCompile "io.ktor:ktor-server-tests:$ktor_version"
 }

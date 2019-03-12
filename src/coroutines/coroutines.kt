@@ -19,7 +19,7 @@ fun main() {
     }
 }
 
-private suspend fun getGeoPointsAsync(): GeoPointsResponse {
+private suspend fun getGeoPointsAsync(): GeoPointsResponseDto {
     val client = HttpClient {
         install(JsonFeature) {
             serializer = GsonSerializer()
@@ -28,11 +28,11 @@ private suspend fun getGeoPointsAsync(): GeoPointsResponse {
     return client.get { url("http://t21services.herokuapp.com/points") }
 }
 
-data class GeoPointsResponse(
-    val list: List<GeoPoint>
+data class GeoPointsResponseDto(
+    val list: List<GeoPointDto>
 )
 
-data class GeoPoint(
+data class GeoPointDto(
     val geocoordinates: String,
     val id: String,
     val title: String
